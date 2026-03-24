@@ -7,11 +7,7 @@ use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
-/**
- * Description of PlaylistsController
- *
- * @author emds
- */
+
 class PlaylistsController extends AbstractController {
     
     private const PLAYLISTS_TEMPLATE = "pages/playlists.html.twig";
@@ -48,11 +44,15 @@ class PlaylistsController extends AbstractController {
             'categories' => $categories            
         ]);
     }
+
     #[Route('/playlists/tri/{champ}/{ordre}', name: 'playlists.sort')]
     public function sort($champ, $ordre): Response{
         switch($champ){
             case "name":
                 $playlists = $this->playlistRepository->findAllOrderByName($ordre);
+                break;
+            case "nbformations":
+                $playlists = $this->playlistRepository->findAllOrderByNbFormations($ordre);
                 break;
             default:
                 $playlists = $this->playlistRepository->findAllOrderByName('ASC');
@@ -64,6 +64,7 @@ class PlaylistsController extends AbstractController {
             'categories' => $categories            
         ]);
     }          
+
     #[Route('/playlists/recherche/{champ}/{table}', name: 'playlists.findallcontain')]
     public function findAllContain($champ, Request $request, $table=""): Response{
         $valeur = $request->get("recherche");
@@ -76,6 +77,7 @@ class PlaylistsController extends AbstractController {
             'table' => $table
         ]);
     }  
+
     #[Route('/playlists/playlist/{id}', name: 'playlists.showone')]
     public function showOne($id): Response{
         $playlist = $this->playlistRepository->find($id);
