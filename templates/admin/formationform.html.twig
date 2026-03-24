@@ -1,0 +1,56 @@
+{% extends "adminbase.html.twig" %}
+{% block body %}
+    <h2 class="text-center mt-3">{% if edit %}Modifier{% else %}Ajouter{% endif %} une formation</h2>
+    <form method="POST" class="container mt-3">
+        <div class="mb-3">
+            <label class="form-label">Titre *</label>
+            <input type="text" class="form-control" name="title" required
+                   value="{{ formation.title ?? '' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3">{{ formation.description ?? '' }}</textarea>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">ID Vidéo YouTube *</label>
+            <input type="text" class="form-control" name="videoId" required
+                   value="{{ formation.videoId ?? '' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Date de publication *</label>
+            <input type="date" class="form-control" name="publishedAt" required
+                   max="{{ "now"|date("Y-m-d") }}"
+                   value="{{ formation.publishedAt ? formation.publishedAt|date('Y-m-d') : '' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Playlist *</label>
+            <select class="form-select" name="playlist" required>
+                <option value="">-- Choisir une playlist --</option>
+                {% for playlist in playlists %}
+                    <option value="{{ playlist.id }}"
+                        {% if formation.playlist is not null and formation.playlist.id == playlist.id %}
+                            selected
+                        {% endif %}>
+                        {{ playlist.name }}
+                    </option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Catégories (optionnel)</label>
+            <select class="form-select" name="categories[]" multiple>
+                {% for categorie in categories %}
+                    <option value="{{ categorie.id }}"
+                        {% if formation.categories is defined and categorie in formation.categories %}
+                            selected
+                        {% endif %}>
+                        {{ categorie.name }}
+                    </option>
+                {% endfor %}
+            </select>
+            <small class="text-muted">Maintenez Ctrl pour sélectionner plusieurs catégories</small>
+        </div>
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{{ path('admin.formations') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+{% endblock %}
