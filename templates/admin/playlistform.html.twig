@@ -1,0 +1,28 @@
+{% extends "adminbase.html.twig" %}
+{% block body %}
+    <h2 class="text-center mt-3">{% if edit %}Modifier{% else %}Ajouter{% endif %} une playlist</h2>
+    <form method="POST" class="container mt-3">
+        <div class="mb-3">
+            <label class="form-label">Nom *</label>
+            <input type="text" class="form-control" name="name" required
+                   value="{{ playlist.name ?? '' }}">
+        </div>
+        <div class="mb-3">
+            <label class="form-label">Description</label>
+            <textarea class="form-control" name="description" rows="3">{{ playlist.description ?? '' }}</textarea>
+        </div>
+        {% if edit and formations|length > 0 %}
+            <div class="mb-3">
+                <label class="form-label">Formations de cette playlist</label>
+                <ul class="list-group">
+                    {% for formation in formations %}
+                        <li class="list-group-item">{{ formation.title }}</li>
+                    {% endfor %}
+                </ul>
+                <small class="text-muted">Les formations ne peuvent être modifiées que depuis la gestion des formations.</small>
+            </div>
+        {% endif %}
+        <button type="submit" class="btn btn-success">Enregistrer</button>
+        <a href="{{ path('admin.playlists') }}" class="btn btn-secondary">Annuler</a>
+    </form>
+{% endblock %}
