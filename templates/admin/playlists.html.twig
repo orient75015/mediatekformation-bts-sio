@@ -21,7 +21,7 @@
                 </th>
                 <th class="text-left align-top" scope="col">
                     catégories
-                    <form method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name', table:'categories'}) }}">                        <select class="form-select form-select-sm mt-1" name="recherche" onchange="this.form.submit()">
+                    <form method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name', table:'categories'}) }}">                
                             <option value=""></option>
                             {% for categorie in categories %}
                                 <option {% if valeur|default and valeur==categorie.name %}selected{% endif %}

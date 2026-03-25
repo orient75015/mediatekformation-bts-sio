@@ -1,0 +1,48 @@
+{% extends "adminbase.html.twig" %}
+{% block body %}
+    <h2 class="text-center mt-3">Gestion des catégories</h2>
+    <div class="container mt-3">
+        <form method="POST" class="row g-2 mb-4">
+            <div class="col-auto">
+                <label class="form-label">Ajouter une catégorie</label>
+                <input type="text" class="form-control" name="name" required placeholder="Nom de la catégorie">
+            </div>
+            <div class="col-auto align-self-end">
+                <button type="submit" class="btn btn-success">Ajouter</button>
+            </div>
+            {% if erreur %}
+                <div class="col-12">
+                    <div class="alert alert-danger mt-2">{{ erreur }}</div>
+                </div>
+            {% endif %}
+        </form>
+        <table class="table table-striped">
+            <caption>Liste des catégories</caption>
+            <thead>
+                <tr>
+                    <th scope="col">Nom</th>
+                    <th scope="col" class="text-center">Nb formations</th>
+                    <th scope="col" class="text-center">Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for categorie in categories %}
+                    <tr class="align-middle">
+                        <td>{{ categorie.name }}</td>
+                        <td class="text-center">{{ categorie.formations|length }}</td>
+                        <td class="text-center">
+                            {% if categorie.formations|length == 0 %}
+                                <a href="{{ path('admin.categories.suppr', {id:categorie.id}) }}"
+                                   class="btn btn-danger btn-sm"
+                                   onclick="return confirm('Confirmer la suppression ?')">Supprimer</a>
+                            {% else %}
+                                <button class="btn btn-secondary btn-sm" disabled
+                                        title="Impossible : cette catégorie est rattachée à des formations">Supprimer</button>
+                            {% endif %}
+                        </td>
+                    </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% endblock %}

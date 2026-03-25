@@ -702,6 +702,7 @@ INSERT INTO `playlist` (`id`, `name`, `description`) VALUES
 (27, 'Cours de programmation objet', 'La playlist contient :\r\n- la nouvelle version du cours en une seule vidéo\r\n\r\nLien vers le pdf du cours :\r\nhttp://bit.ly/EmdsObjet'),
 
 
+
 --
 -- Contraintes pour les tables déchargées
 --
