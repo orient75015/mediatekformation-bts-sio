@@ -49,7 +49,8 @@ INSERT INTO `categorie` (`id`, `name`) VALUES
 (6, 'Android'),
 (7, 'POO'),
 (8, 'SQL'),
-(9, 'Cours');
+(9, 'Cours'),
+(10, 'test');
 
 -- --------------------------------------------------------
 
