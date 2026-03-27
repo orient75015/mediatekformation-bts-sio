@@ -1,20 +1,15 @@
 <?php
-
 namespace App\Entity;
-
 use App\Repository\FormationRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
 use Doctrine\DBAL\Types\Types;
 use Doctrine\ORM\Mapping as ORM;
+use Symfony\Component\Validator\Constraints as Assert;
 
 #[ORM\Entity(repositoryClass: FormationRepository::class)]
 class Formation
 {
-
-    /**
-     * Début de chemin vers les images
-     */
     private const CHEMIN_IMAGE = "https://i.ytimg.com/vi/";
         
     #[ORM\Id]
@@ -23,6 +18,7 @@ class Formation
     private ?int $id = null;
 
     #[ORM\Column(type: Types::DATETIME_MUTABLE, nullable: true)]
+    #[Assert\LessThanOrEqual('today', message: "La date ne peut pas être postérieure à aujourd'hui.")]
     private ?\DateTimeInterface $publishedAt = null;
 
     #[ORM\Column(length: 100, nullable: true)]
@@ -37,9 +33,6 @@ class Formation
     #[ORM\ManyToOne(inversedBy: 'formations')]
     private ?Playlist $playlist = null;
 
-    /**
-     * @var Collection<int, Categorie>
-     */
     #[ORM\ManyToMany(targetEntity: Categorie::class, inversedBy: 'formations')]
     private Collection $categories;
 
@@ -61,7 +54,6 @@ class Formation
     public function setPublishedAt(?\DateTimeInterface $publishedAt): static
     {
         $this->publishedAt = $publishedAt;
-
         return $this;
     }
 
@@ -80,7 +72,6 @@ class Formation
     public function setTitle(?string $title): static
     {
         $this->title = $title;
-
         return $this;
     }
 
@@ -92,7 +83,6 @@ class Formation
     public function setDescription(?string $description): static
     {
         $this->description = $description;
-
         return $this;
     }
 
@@ -104,7 +94,6 @@ class Formation
     public function setVideoId(?string $videoId): static
     {
         $this->videoId = $videoId;
-
         return $this;
     }
 
@@ -118,7 +107,7 @@ class Formation
         return self::CHEMIN_IMAGE.$this->videoId."/hqdefault.jpg";
     }
     
-    public function getPlaylist(): ?playlist
+    public function getPlaylist(): ?Playlist
     {
         return $this->playlist;
     }
@@ -126,13 +115,9 @@ class Formation
     public function setPlaylist(?Playlist $playlist): static
     {
         $this->playlist = $playlist;
-
         return $this;
     }
 
-    /**
-     * @return Collection<int, Categorie>
-     */
     public function getCategories(): Collection
     {
         return $this->categories;
@@ -143,14 +128,12 @@ class Formation
         if (!$this->categories->contains($category)) {
             $this->categories->add($category);
         }
-
         return $this;
     }
 
     public function removeCategory(Categorie $category): static
     {
         $this->categories->removeElement($category);
-
         return $this;
     }
 }

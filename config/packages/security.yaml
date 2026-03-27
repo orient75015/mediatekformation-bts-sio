@@ -6,8 +6,8 @@ security:
             memory:
                 users:
                     admin:
-                      password: '$2y$13$rKreiPlEx9jBSjwKZoVIY.TcVXc3KUWF0z4Uo5ncJNofGw706pQKu'
-                      roles: 'ROLE_ADMIN'
+                        password: '$2y$13$rKreiPlEx9jBSjwKZoVIY.TcVXc3KUWF0z4Uo5ncJNofGw706pQKu'
+                        roles: 'ROLE_ADMIN'
     firewalls:
         dev:
             pattern: ^/(_(profiler|wdt)|css|images|js)/
@@ -16,15 +16,15 @@ security:
             lazy: true
             provider: users_in_memory
             form_login:
-                  login_path: app_login
-                  check_path: app_login
-                  default_target_path: /admin/formations
+                login_path: app_login
+                check_path: app_login
+                default_target_path: /admin/formations
             logout:
                 path: app_logout
                 target: /
     access_control:
-        - { path: ^/login, roles: PUBLIC_ACCESS }
-        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/admin$, roles: PUBLIC_ACCESS }
+        - { path: ^/admin/, roles: ROLE_ADMIN }
 
 when@test:
     security:
