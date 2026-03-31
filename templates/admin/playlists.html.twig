@@ -23,7 +23,7 @@
                     catégories
                     <form method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name', table:'categories'}) }}">
                         <select name="recherche" class="form-select form-select-sm mt-1" onchange="this.form.submit()">
-                            <option value=""></option>
+                            <option value="">-- toutes --</option>
                             {% for categorie in categories %}
                                 <option {% if valeur|default and valeur==categorie.name %}selected{% endif %}
                                     value="{{ categorie.name }}">{{ categorie.name }}</option>
