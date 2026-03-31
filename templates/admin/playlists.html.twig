@@ -21,13 +21,15 @@
                 </th>
                 <th class="text-left align-top" scope="col">
                     catégories
-                    <form method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name', table:'categories'}) }}">                
+                    <form method="POST" action="{{ path('admin.playlists.findallcontain', {champ:'name', table:'categories'}) }}">
+                        <select name="recherche" class="form-select form-select-sm mt-1" onchange="this.form.submit()">
                             <option value=""></option>
                             {% for categorie in categories %}
                                 <option {% if valeur|default and valeur==categorie.name %}selected{% endif %}
                                     value="{{ categorie.name }}">{{ categorie.name }}</option>
                             {% endfor %}
                         </select>
+                        <input type="hidden" name="_token" value="{{ csrf_token('filtre_name') }}">
                     </form>
                 </th>
                 <th class="text-left align-top" scope="col">
