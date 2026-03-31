@@ -1,0 +1,21 @@
+name: Deploy to Alwaysdata
+
+on:
+  push:
+    branches: [ master ]
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Deploy via SSH
+        uses: appleboy/ssh-action@master
+        with:
+          host: ssh-orianecned.alwaysdata.net
+          username: orianecned
+          password: ${{ secrets.SSH_PASSWORD }}
+          script: |
+            cd ~/www/mediatekformation
+            git reset --hard origin/master
+            php bin/console cache:clear --env=prod
+            php bin/console cache:warmup --env=prod
